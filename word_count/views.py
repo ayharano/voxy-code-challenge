@@ -1,5 +1,5 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def word_count(request):
-    return HttpResponse('<html><body><form><textarea><input type="submit"></form></body></html>')
+    return render(request, 'word_count/word_count.html')
