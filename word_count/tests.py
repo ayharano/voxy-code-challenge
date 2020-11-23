@@ -80,3 +80,42 @@ class WordCountViewPageResponseTests(TestCase):
             }
         )
         self.assertEqual(after_post.status_code, 400)
+
+    def test_submit_invisible_char_textbox_status_code_400(self):
+        csrfmiddlewaretoken = self._get_csrfmiddlewaretoken()
+        after_post = self.client.post(
+            reverse('word_count:word_count'),
+            {
+                "csrfmiddlewaretoken": csrfmiddlewaretoken,
+                "textbox": "  \t \r\n ",
+            }
+        )
+        self.assertEqual(after_post.status_code, 400)
+
+    def test_submit_usual_text_in_textbox_correct_word_count(self):
+        csrfmiddlewaretoken = self._get_csrfmiddlewaretoken()
+        after_post = self.client.post(
+            reverse('word_count:word_count'),
+            {
+                "csrfmiddlewaretoken": csrfmiddlewaretoken,
+                "textbox": "\r\nHey!\r\n",
+            }
+        )
+        self.assertEqual(after_post.status_code, 200)
+        self.assertEqual(after_post.content, r"Found a word in text.")
+
+    def test_submit_usual_text_in_textbox_correct_word_count(self):
+        csrfmiddlewaretoken = self._get_csrfmiddlewaretoken()
+        after_post = self.client.post(
+            reverse('word_count:word_count'),
+            {
+                "csrfmiddlewaretoken": csrfmiddlewaretoken,
+                "textbox": """Meet Django
+
+Django is a high-level Python Web framework that encourages rapid development and clean, pragmatic design. Built by
+experienced developers, it takes care of much of the hassle of Web development, so you can focus on writing your app
+ without needing to reinvent the wheel. It’s free and open source.""",
+            }
+        )
+        self.assertEqual(after_post.status_code, 200)
+        self.assertEqual(after_post.content, b"Found 51 words in text.")
