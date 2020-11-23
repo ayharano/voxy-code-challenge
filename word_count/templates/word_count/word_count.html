@@ -22,9 +22,10 @@
 
     <form>
       {% csrf_token %}
-      <div class="form-group">
+      <div class="form-group" style="position: relative;">
         <label for="textbox">Insert text and submit to retrieve its word count.</label>
         <textarea class="form-control" id="textbox" name="textbox" rows="20" placeholder="Insert actual text here."></textarea>
+          <div class="invalid-tooltip" disabled>Please provide text with visible characters.</div>
       </div>
       <input class="btn btn-primary" style="float: right;" type="submit" value="Count words!">
     </form>
