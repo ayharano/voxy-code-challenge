@@ -9,3 +9,5 @@ You are free to copy, modify, and distribute "Code Challenge" with attribution u
 ## System requirements
 
 - A Web browser that supports EMCAScript 6+
+- Python 3.8+
+- [Poetry](https://python-poetry.org/) 1.0.10+
