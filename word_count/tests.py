@@ -57,3 +57,26 @@ class WordCountViewPageStructureTests(TestCase):
         found_node_list = selector.xpath(xpath_query).getall()
         self.assertEqual(len(found_node_list), 1)
 
+
+class WordCountViewPageResponseTests(TestCase):
+
+    def _get_csrfmiddlewaretoken(self):
+        response = self.client.get(reverse('word_count:word_count'))
+        content_as_str = response.content.decode(encoding='utf-8')
+        selector = Selector(text=content_as_str)
+        xpath_query = (
+            '//form/input[@type="hidden" and @name="csrfmiddlewaretoken"]'
+            '/@value'
+        )
+        return selector.xpath(xpath_query).get()
+
+    def test_submit_empty_textbox_status_code_400(self):
+        csrfmiddlewaretoken = self._get_csrfmiddlewaretoken()
+        after_post = self.client.post(
+            reverse('word_count:word_count'),
+            {
+                "csrfmiddlewaretoken": csrfmiddlewaretoken,
+                "textbox": "",
+            }
+        )
+        self.assertEqual(after_post.status_code, 400)
