@@ -42,6 +42,8 @@ poetry run manage.py runserver <PORT>
 
 and in a Web browser open the URL `http://127.0.0.1:<PORT>/`
 
+This project Web site can be only accessed in the server local machine, as it is only using default development settings for now.
+
 ## Run test suite
 
 Using a terminal, change current directory to the directory containing this README file.
