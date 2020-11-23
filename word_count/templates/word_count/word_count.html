@@ -47,9 +47,10 @@
           Insert text and submit to retrieve its word count.
           <br>
           <br>
-          Rule:
+          Rules:
           <ul>
             <li> A word is considered as a contiguous sequence of visible characters.
+            <li> A word cannot be composed with digits and punctuation only. (e.g. "1, 2, 3!" is considered as a 0 word text.)
           </ul>
         </label>
         <textarea class="form-control" id="textbox" name="textbox" rows="20" placeholder="Insert actual text here."></textarea>
