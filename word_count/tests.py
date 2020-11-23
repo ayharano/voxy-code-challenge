@@ -4,6 +4,8 @@ from django.urls import reverse
 from parsel import Selector
 
 
+# TODO: test actual front end modifications based on JavaScript source
+
 class WordCountViewURLTests(TestCase):
     def test_assert_absolute_URL_path(self):
         self.assertEqual(reverse('word_count:word_count'), '/word_count/')
@@ -92,6 +94,21 @@ class WordCountViewPageResponseTests(TestCase):
         )
         self.assertEqual(after_post.status_code, 400)
 
+    def test_submit_punctuation_and_digits_only_words_counts_as_zero(self):
+        csrfmiddlewaretoken = self._get_csrfmiddlewaretoken()
+        after_post = self.client.post(
+            reverse('word_count:word_count'),
+            {
+                "csrfmiddlewaretoken": csrfmiddlewaretoken,
+                "textbox": "\r\n1, 2, 3!\r\n",
+            }
+        )
+        self.assertEqual(after_post.status_code, 200)
+        self.assertEqual(
+            after_post.content,
+            b"Found no valid word in text, see rules.",
+        )
+
     def test_submit_usual_text_in_textbox_correct_word_count(self):
         csrfmiddlewaretoken = self._get_csrfmiddlewaretoken()
         after_post = self.client.post(
@@ -119,3 +136,15 @@ experienced developers, it takes care of much of the hassle of Web development, 
         )
         self.assertEqual(after_post.status_code, 200)
         self.assertEqual(after_post.content, b"Found 51 words in text.")
+
+    def test_submit_text_words_composed_by_only_digits_and_punctuation_not_to_be_count(self):
+        csrfmiddlewaretoken = self._get_csrfmiddlewaretoken()
+        after_post = self.client.post(
+            reverse('word_count:word_count'),
+            {
+                "csrfmiddlewaretoken": csrfmiddlewaretoken,
+                "textbox": "\r\nEasy as 1, 2, 3!\r\n",
+            }
+        )
+        self.assertEqual(after_post.status_code, 200)
+        self.assertEqual(after_post.content, b"Found 2 words in text.")

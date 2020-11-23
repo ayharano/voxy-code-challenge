@@ -1,4 +1,6 @@
+from collections import Counter
 import re
+from string import punctuation
 from typing import List, Optional
 
 
@@ -14,7 +16,22 @@ def word_count(content: str, *args, **kwargs) -> Optional[str]:
     if not raw_word_split:
         return
 
-    words = len(raw_word_split)
+    counter = Counter(raw_word_split)
+
+    punctuation_and_digits_only_pattern = fr"^[{punctuation}\d]+$"
+    word_keys = counter.keys()
+    to_remove = []
+    for key in word_keys:
+        if re.match(punctuation_and_digits_only_pattern, key):
+            to_remove.append(key)
+
+    for not_valid in to_remove:
+        del counter[not_valid]
+
+    words = len(list(counter.elements()))
+
+    if not words:
+        return "Found no valid word in text, see rules."
 
     a_word = "Found a word in text."
 
