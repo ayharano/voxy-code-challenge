@@ -11,3 +11,45 @@ You are free to copy, modify, and distribute "Code Challenge" with attribution u
 - A Web browser that supports EMCAScript 6+
 - Python 3.8+
 - [Poetry](https://python-poetry.org/) 1.0.10+
+
+## Installation
+
+Using a terminal, change current directory to the directory containing this README file.
+
+After that, run
+
+```sh
+poetry install
+```
+
+## Usage
+
+Using a terminal, change current directory to the directory containing this README file.
+
+After that, run
+
+```sh
+poetry run manage.py runserver
+```
+
+and in a Web browser open the URL http://127.0.0.1:8000/
+
+If port 8000 is being used, run command
+
+```sh
+poetry run manage.py runserver <PORT>
+```
+
+and in a Web browser open the URL `http://127.0.0.1:<PORT>/`
+
+## Run test suite
+
+Using a terminal, change current directory to the directory containing this README file.
+
+After that, run
+
+```sh
+poetry run manage.py test
+```
+
+to run included tests.
