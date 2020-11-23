@@ -40,6 +40,12 @@ $(document).ready(
           method: 'POST',
           data: $(form).serialize(),
         })
+        .done(
+          function(data) {
+            $( 'div.modal-body' ).html(data);
+            $( 'div#staticBackdrop' ).modal('show');
+          }
+        )
         .fail(
           function(data) {
             $( 'textarea#textbox' ).addClass('is-invalid');
